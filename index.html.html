@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Joseph Kiteley — Finance Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F8F5F0; --bg2:#F0EDE7; --bg3:#E2DDD5;
+  --charcoal:#18181B; --navy:#1B3358; --navy-lt:#234270;
+  --navy-dim:rgba(27,51,88,0.08); --navy-bdr:rgba(27,51,88,0.18);
+  --muted:#7A7570; --muted2:#B0AAA2; --text:#36322E; --white:#FFFFFF;
+  --font:'Urbanist',sans-serif; --radius:10px;
+  --shadow:0 2px 16px rgba(27,51,88,0.07);
+  --shadow-h:0 8px 32px rgba(27,51,88,0.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:20px;height:20px;background:var(--navy);border-radius:3px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .18s,height .18s,border-radius .18s}
+.cursor.grow{width:50px;height:50px;border-radius:6px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-between;transition:background .35s,padding .3s,box-shadow .3s}
+nav.scrolled{background:rgba(248,245,240,0.97);backdrop-filter:blur(14px);padding:0.9rem 4rem;box-shadow:0 1px 0 var(--bg3)}
+.nav-logo{font-size:1rem;font-weight:800;color:var(--charcoal);text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.5rem}
+.nav-logo-dot{width:7px;height:7px;background:var(--navy);border-radius:50%}
+.nav-links{display:flex;gap:0;list-style:none;background:var(--white);border:1px solid var(--bg3);border-radius:30px;padding:0.3rem}
+.nav-links li a{display:block;padding:0.4rem 1rem;border-radius:24px;font-size:0.78rem;font-weight:600;color:var(--muted);text-decoration:none;transition:background .2s,color .2s}
+.nav-links li a:hover{background:var(--navy-dim);color:var(--navy)}
+#hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 5rem;position:relative;overflow:hidden;background:var(--charcoal)}
+#hero::before{content:'';position:absolute;inset:0;opacity:0.035;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#hero::after{content:'';position:absolute;top:-20%;left:-10%;width:70vw;height:70vw;background:radial-gradient(ellipse,rgba(27,51,88,0.55) 0%,transparent 65%);pointer-events:none;z-index:0}
+.hero-left{position:relative;z-index:1;max-width:680px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:0.6rem;padding:0.4rem 1rem;border:1px solid rgba(255,255,255,0.15);border-radius:24px;background:rgba(255,255,255,0.06);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:2rem;opacity:0;animation:fadeUp .7s ease .2s forwards}
+.hero-pulse{width:6px;height:6px;background:#5B9BD5;border-radius:50%;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+.hero-name{font-size:clamp(3.5rem,8vw,7.5rem);font-weight:900;letter-spacing:-0.04em;line-height:0.92;color:#fff;opacity:0;animation:fadeUp .9s ease .35s forwards}
+.hero-name .nt{color:#5B9BD5}
+.hero-desc{margin-top:2.5rem;max-width:520px;font-size:1.05rem;font-weight:400;line-height:1.75;color:rgba(255,255,255,0.55);opacity:0;animation:fadeUp .8s ease .55s forwards}
+.hero-ctas{margin-top:3rem;display:flex;gap:1rem;opacity:0;animation:fadeUp .8s ease .7s forwards}
+.btn{display:inline-flex;align-items:center;gap:0.6rem;padding:0.85rem 2rem;border-radius:8px;font-family:var(--font);font-size:0.88rem;font-weight:700;text-decoration:none;transition:all .22s;border:none;cursor:pointer}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:var(--navy-lt);transform:translateY(-2px);box-shadow:0 8px 20px rgba(27,51,88,0.35)}
+.btn-ghost{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.2)}
+.btn-ghost:hover{background:rgba(255,255,255,0.14);color:#fff;transform:translateY(-2px)}
+section{padding:6rem 4rem}
+.section-tag{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--navy);margin-bottom:1rem}
+.section-tag::before{content:'';width:18px;height:2px;background:var(--navy);border-radius:2px;display:block}
+.s-title{font-size:clamp(2rem,4vw,3.2rem);font-weight:900;letter-spacing:-0.03em;color:var(--charcoal);line-height:1.05;margin-bottom:3rem}
+.s-title em{font-style:normal;color:var(--navy)}
+#about{background:var(--white)}
+.about-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:3rem;align-items:start}
+.about-card{background:var(--bg);border:1px solid var(--bg3);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow)}
+.about-card p{font-size:1.02rem;line-height:1.85;color:var(--text);margin-bottom:1.2rem}
+.about-card p:first-child{font-size:1.18rem;font-weight:600;color:var(--charcoal);line-height:1.65}
+.about-card p:last-child{margin-bottom:0}
+.facts-card{background:var(--bg);border:1px solid var(--bg3);border-radius:var(--radius);padding:0 1.75rem;box-shadow:var(--shadow)}
+.fact{display:flex;flex-direction:column;padding:1.1rem 0;border-bottom:1px solid var(--bg3)}
+.fact:last-child{border-bottom:none}
+.fact-label{font-size:0.67rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);margin-bottom:0.25rem}
+.fact-val{font-size:0.9rem;font-weight:600;color:var(--charcoal)}
+#experience{background:var(--bg)}
+.exp-grid{display:flex;flex-direction:column;gap:1.5rem}
+.exp-card{background:var(--white);border:1px solid var(--bg3);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow);display:grid;grid-template-columns:180px 1fr;gap:2.5rem;position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease,box-shadow .25s,border-color .25s}
+.exp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--bg3);transition:background .25s}
+.exp-card:hover{box-shadow:var(--shadow-h);border-color:var(--navy-bdr)}
+.exp-card:hover::before{background:var(--navy)}
+.exp-card.visible{opacity:1;transform:none}
+.exp-date{font-size:0.75rem;font-weight:700;letter-spacing:0.05em;color:var(--muted);text-transform:uppercase;line-height:1.6;margin-bottom:0.75rem}
+.exp-badge{display:inline-block;padding:0.22rem 0.65rem;background:var(--navy-dim);color:var(--navy);border-radius:20px;font-size:0.66rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+.exp-role{font-size:1.45rem;font-weight:800;letter-spacing:-0.02em;color:var(--charcoal);line-height:1.1;margin-bottom:0.3rem}
+.exp-company{font-size:0.88rem;font-weight:600;color:var(--navy);margin-bottom:0.9rem}
+.exp-company a{color:inherit;text-decoration:none;transition:opacity .2s}
+.exp-company a:hover{opacity:0.7}
+.exp-summary{font-size:0.87rem;line-height:1.75;color:var(--muted);margin-bottom:1.2rem}
+.bullets{list-style:none;display:flex;flex-direction:column;gap:0.55rem}
+.bullets li{display:flex;gap:0.75rem;align-items:flex-start;font-size:0.88rem;line-height:1.65;color:var(--text)}
+.bullets li::before{content:'';display:block;width:5px;height:5px;background:var(--navy);border-radius:50%;flex-shrink:0;margin-top:0.55rem}
+.award-tag{display:inline-flex;align-items:center;gap:0.45rem;margin-top:1.2rem;padding:0.4rem 0.9rem;background:var(--navy-dim);border-radius:6px;font-size:0.76rem;font-weight:700;color:var(--navy)}
+#skills{background:var(--white)}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.skill-card{background:var(--bg);border:1px solid var(--bg3);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease,box-shadow .25s,border-color .25s}
+.skill-card.visible{opacity:1;transform:none}
+.skill-card:hover{box-shadow:var(--shadow-h);border-color:var(--navy-bdr);transform:translateY(-3px)}
+.skill-card-title{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem}
+.skill-card-title::after{content:'';flex:1;height:1px;background:var(--bg3)}
+.tag-row{display:flex;flex-wrap:wrap;gap:0.5rem}
+.tag{padding:0.38rem 0.85rem;background:var(--white);border:1.5px solid var(--bg3);border-radius:6px;font-size:0.8rem;font-weight:500;color:var(--charcoal);transition:border-color .2s,color .2s,background .2s,transform .2s}
+.tag:hover{border-color:var(--navy);color:var(--navy);background:var(--navy-dim);transform:translateY(-1px)}
+#projects{background:var(--bg)}
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.impact-card{background:var(--white);border:1px solid var(--bg3);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column;cursor:pointer;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease,box-shadow .25s,border-color .25s}
+.impact-card.visible{opacity:1;transform:none}
+.impact-card:hover{box-shadow:var(--shadow-h);border-color:var(--navy-bdr);transform:translateY(-4px)}
+.ic-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.ic-num{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2)}
+.ic-pill{padding:0.25rem 0.75rem;background:var(--navy-dim);color:var(--navy);border-radius:20px;font-size:0.7rem;font-weight:700;white-space:nowrap}
+.ic-title{font-size:1.08rem;font-weight:800;letter-spacing:-0.01em;color:var(--charcoal);line-height:1.25;margin-bottom:0.65rem}
+.ic-desc{font-size:0.83rem;line-height:1.7;color:var(--muted);flex:1}
+.ic-arrow{margin-top:1.25rem;font-size:0.8rem;font-weight:700;color:var(--navy);opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s}
+.impact-card:hover .ic-arrow{opacity:1;transform:none}
+#education{background:var(--white)}
+.edu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.edu-card{background:var(--bg);border:1px solid var(--bg3);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease,box-shadow .25s,border-color .25s}
+.edu-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--bg3);transition:background .25s}
+.edu-card:hover{box-shadow:var(--shadow-h);border-color:var(--navy-bdr);transform:translateY(-3px)}
+.edu-card:hover::after{background:var(--navy)}
+.edu-card.visible{opacity:1;transform:none}
+.edu-icon{font-size:1.6rem;margin-bottom:1.25rem}
+.edu-status{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);margin-bottom:0.4rem}
+.edu-degree{font-size:1.05rem;font-weight:800;letter-spacing:-0.01em;color:var(--charcoal);margin-bottom:0.3rem;line-height:1.25}
+.edu-inst{font-size:0.82rem;font-weight:500;color:var(--muted);margin-bottom:0.75rem}
+.edu-desc{font-size:0.8rem;line-height:1.65;color:var(--muted)}
+#references{background:var(--bg)}
+.ref-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.ref-card{background:var(--white);border:1px solid var(--bg3);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease,box-shadow .25s,border-color .25s}
+.ref-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--bg3);transition:background .25s}
+.ref-card:hover{box-shadow:var(--shadow-h);border-color:var(--navy-bdr)}
+.ref-card:hover::before{background:var(--navy)}
+.ref-card.visible{opacity:1;transform:none}
+.ref-co{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);margin-bottom:1rem}
+.ref-name{font-size:1.15rem;font-weight:800;letter-spacing:-0.02em;color:var(--charcoal);margin-bottom:0.2rem}
+.ref-role{font-size:0.84rem;font-weight:500;color:var(--muted);margin-bottom:1.25rem}
+.ref-divider{width:100%;height:1px;background:var(--bg3);margin-bottom:1.25rem}
+.ref-contact{font-size:0.82rem;font-weight:500;color:var(--muted);margin-bottom:0.35rem;display:flex;align-items:center;gap:0.5rem}
+a.ref-contact{text-decoration:none;transition:color .2s}
+a.ref-contact:hover{color:var(--navy)}
+#contact{background:var(--white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+.contact-card{background:var(--bg);border:1px solid var(--bg3);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow)}
+.contact-heading{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;letter-spacing:-0.03em;color:var(--charcoal);line-height:1.1;margin-bottom:1rem}
+.contact-heading em{font-style:normal;color:var(--navy)}
+.contact-sub{font-size:0.95rem;line-height:1.75;color:var(--muted);margin-bottom:2rem}
+.c-links{display:flex;flex-direction:column;gap:0.85rem}
+.c-link{display:flex;align-items:center;gap:0.85rem;padding:1rem 1.25rem;border-radius:8px;border:1.5px solid var(--bg3);text-decoration:none;background:var(--white);transition:all .22s;cursor:pointer}
+.c-link:hover{border-color:var(--navy);background:var(--navy-dim);transform:translateX(4px)}
+.c-link-icon{width:34px;height:34px;background:var(--navy-dim);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--navy);flex-shrink:0;transition:background .2s}
+.c-link:hover .c-link-icon{background:var(--navy);color:#fff}
+.c-link-text{font-size:0.88rem;font-weight:600;color:var(--charcoal)}
+.c-link-sub{font-size:0.75rem;color:var(--muted)}
+.fg{margin-bottom:1.2rem}
+.fg label{display:block;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--charcoal);margin-bottom:0.45rem}
+.fg input,.fg textarea{width:100%;background:var(--white);border:1.5px solid var(--bg3);border-radius:8px;padding:0.85rem 1rem;font-family:var(--font);font-size:0.9rem;color:var(--charcoal);outline:none;resize:none;transition:border-color .2s,box-shadow .2s}
+.fg input:focus,.fg textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(27,51,88,0.08)}
+.fg textarea{height:110px}
+.f-submit{width:100%;padding:1rem;background:var(--navy);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:0.9rem;font-weight:800;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s}
+.f-submit:hover{background:var(--navy-lt);transform:translateY(-1px);box-shadow:0 6px 18px rgba(27,51,88,0.25)}
+.f-success{display:none;margin-top:1rem;padding:1rem;background:var(--navy-dim);border-radius:8px;font-size:0.85rem;font-weight:600;color:var(--navy)}
+footer{padding:2rem 4rem;background:var(--charcoal);display:flex;justify-content:center;align-items:center}
+footer a{font-size:0.78rem;color:rgba(255,255,255,0.55);text-decoration:none;font-weight:700;transition:color .2s}
+footer a:hover{color:#fff}
+.divider{width:100%;height:1px;background:var(--bg3)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.reveal.visible{opacity:1;transform:none}
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(24,24,27,0.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--white);border-radius:14px;padding:2.5rem;max-width:560px;width:100%;box-shadow:0 24px 60px rgba(27,51,88,0.18);position:relative;transform:translateY(16px) scale(0.98);transition:transform .25s ease}
+.modal-overlay.open .modal-box{transform:none}
+.modal-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--bg);border:1px solid var(--bg3);border-radius:6px;width:30px;height:30px;font-size:0.75rem;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
+.modal-close:hover{background:var(--navy-dim);color:var(--navy)}
+.modal-tag{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);margin-bottom:0.5rem}
+.modal-pill{display:inline-block;padding:0.25rem 0.75rem;background:var(--navy-dim);color:var(--navy);border-radius:20px;font-size:0.7rem;font-weight:700;margin-bottom:1.25rem}
+.modal-title{font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--charcoal);margin-bottom:1.25rem;line-height:1.2}
+.modal-body{font-size:0.92rem;line-height:1.8;color:var(--text);margin-bottom:1rem}
+.modal-body:last-child{margin-bottom:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:0.4}}
+@media(max-width:960px){
+  nav{padding:1.2rem 1.5rem}
+  nav.scrolled{padding:0.8rem 1.5rem}
+  .nav-links{display:none}
+  section{padding:5rem 1.5rem}
+  #hero{padding:8rem 1.5rem 5rem}
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .skills-grid,.impact-grid,.edu-grid,.ref-grid{grid-template-columns:1fr}
+  .exp-card{grid-template-columns:1fr;gap:0.5rem}
+  body{cursor:auto}
+  .cursor{display:none}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<nav id="navbar">
+  <a href="#hero" class="nav-logo"><span class="nav-logo-dot"></span> Joseph Kiteley</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Impact</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow"><span class="hero-pulse"></span>Finance Manager &middot; ACCA Part-Qualified &middot; SaaS &amp; Tech Scale-ups</div>
+    <h1 class="hero-name">Joseph<br><span class="nt">Kiteley</span></h1>
+    <p class="hero-desc">I make numbers make sense &mdash; and help fast-moving teams build the financial foundations to actually scale.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn btn-navy">Get in touch &rarr;</a>
+      <a href="#experience" class="btn btn-ghost">See my work</a>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section id="about">
+  <div class="section-tag">About me</div>
+  <h2 class="s-title">Finance that moves at <em>scale-up pace</em></h2>
+  <div class="about-grid">
+    <div class="about-card reveal">
+      <p>I&rsquo;m a Finance Manager with 8+ years across practice, VC-backed SaaS and tech scale-ups &mdash; and I genuinely enjoy untangling the messy stuff.</p>
+      <p>Whether it&rsquo;s a month-end that takes too long, a reporting structure that doesn&rsquo;t quite land, or a fundraise where the numbers need to be bulletproof &mdash; I&rsquo;ve been in those rooms, and I know what good looks like.</p>
+      <p>I work closely with investors and senior leadership, and I take pride in being someone people actually want in the room. Finance tells a story. My job is making sure the right people understand it.</p>
+    </div>
+    <div class="facts-card reveal">
+      <div class="fact"><div class="fact-label">Location</div><div class="fact-val">London, United Kingdom</div></div>
+      <div class="fact"><div class="fact-label">Current Role</div><div class="fact-val">Finance Manager, JAAQ</div></div>
+      <div class="fact"><div class="fact-label">Speciality</div><div class="fact-val">Financial Operations &middot; SaaS Analytics &middot; Scalable Infrastructure</div></div>
+      <div class="fact"><div class="fact-label">Qualification</div><div class="fact-val">ACCA Part-Qualified (11 of 13)</div></div>
+      <div class="fact"><div class="fact-label">Email</div><div class="fact-val">joekiteley@outlook.com</div></div>
+      <div class="fact"><div class="fact-label">Phone</div><div class="fact-val">07958 373920</div></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section id="experience">
+  <div class="section-tag">Work history</div>
+  <h2 class="s-title">Where I&rsquo;ve <em>been</em></h2>
+  <div class="exp-grid">
+    <div class="exp-card">
+      <div class="exp-meta">
+        <div class="exp-date">May 2025<br>Present</div>
+        <div class="exp-badge">Current</div>
+      </div>
+      <div>
+        <div class="exp-role">Finance Manager</div>
+        <div class="exp-company"><a href="https://jaaq.app/home" target="_blank">JAAQ &mdash; Mental Wellbeing Platform &nearr;</a></div>
+        <p class="exp-summary">Working alongside the Head of Finance and SLT on management accounts, revenue, year-end, tax and financial modelling for a London-based VC-backed mental health platform.</p>
+        <ul class="bullets">
+          <li>Cut month-end close from 14 to 5 working days within two months &mdash; mapped every bottleneck, fixed the flow.</li>
+          <li>Standardised templates and documented processes end-to-end, reducing reliance on ad-hoc spreadsheets and individual finance knowledge.</li>
+          <li>Led the design and rollout of a new chart of accounts, giving leadership a cleaner, more actionable view of performance.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-meta">
+        <div class="exp-date">Feb 2023<br>Apr 2025</div>
+      </div>
+      <div>
+        <div class="exp-role">Global Management Accountant</div>
+        <div class="exp-company"><a href="https://hackajob.com" target="_blank">hackajob &mdash; Tech Hiring Platform &nearr;</a></div>
+        <p class="exp-summary">Produced consolidated management accounts, ARR/MRR reporting and cash forecasting. Managed payroll across UK, US and Romania. Led the annual audit and R&amp;D process and oversaw tax compliance.</p>
+        <ul class="bullets">
+          <li>Reduced debtors&rsquo; days from 62 to 35 days in six months.</li>
+          <li>Assisted with due diligence to secure $25M Series B funding and a venture debt refinancing.</li>
+          <li>Researched and implemented Payfit, Payhawk, Travelperk and Gusto across multiple international entities.</li>
+        </ul>
+        <div class="award-tag">&#11088; Employee of the Quarter &mdash; Q4 2024</div>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-meta">
+        <div class="exp-date">Jul 2017<br>Jan 2023</div>
+      </div>
+      <div>
+        <div class="exp-role">Senior Accountant</div>
+        <div class="exp-company"><a href="https://mcbridesllp.com" target="_blank">McBrides Accountants LLP (now DJH Group) &nearr;</a></div>
+        <p class="exp-summary">Managed a varied portfolio of clients across Fintech and SaaS &mdash; management accounts, year-end accounts and tax compliance. Where the fundamentals of accounting were built.</p>
+        <ul class="bullets">
+          <li>Supported the successful sale of two companies to large investment groups.</li>
+          <li>Carried out Xero workshops for several clients to help them use Xero effectively and efficiently.</li>
+          <li>Trained new hires on operational tools and processes, building a knowledge-sharing culture that laid the foundation for their now-respected apprenticeship programme.</li>
+          <li>3&times; promotions: Trainee Accountant &rarr; Assistant Accountant &rarr; Senior Accountant.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section id="skills">
+  <h2 class="s-title">What I&rsquo;m <em>good at</em></h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-title">Finance Tools</div>
+      <div class="tag-row"><span class="tag">Xero</span><span class="tag">Excel</span><span class="tag">Payfit</span><span class="tag">Payhawk</span><span class="tag">Gusto</span><span class="tag">Travelperk</span></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Reporting &amp; Analysis</div>
+      <div class="tag-row"><span class="tag">Management Accounts</span><span class="tag">ARR / MRR</span><span class="tag">Variance Analysis</span><span class="tag">Cash Forecasting</span><span class="tag">R&amp;D Tax Credits</span></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Operations</div>
+      <div class="tag-row"><span class="tag">International Payroll</span><span class="tag">Audit Management</span><span class="tag">Due Diligence</span><span class="tag">Process Design</span><span class="tag">ChatGPT / AI Tools</span></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section id="projects">
+  <div class="section-tag">Key achievements</div>
+  <h2 class="s-title">The work I&rsquo;m <em>proud of</em></h2>
+  <div class="impact-grid">
+    <div class="impact-card" onclick="openModal('m1')">
+      <div class="ic-top"><span class="ic-num">01 &mdash; JAAQ</span><span class="ic-pill">&minus;9 days</span></div>
+      <div class="ic-title">Month-End Transformation</div>
+      <div class="ic-desc">Cut month-end close from 14 to 5 working days within two months by fixing unclear task ownership and automating manual data pulls.</div>
+      <div class="ic-arrow">View detail &rarr;</div>
+    </div>
+    <div class="impact-card" onclick="openModal('m2')">
+      <div class="ic-top"><span class="ic-num">02 &mdash; hackajob</span><span class="ic-pill">$25M raised</span></div>
+      <div class="ic-title">Series B Due Diligence</div>
+      <div class="ic-desc">Played a key role throughout hackajob&rsquo;s $25M Series B fundraise, owning compliance and audit readiness from first investor conversation to close.</div>
+      <div class="ic-arrow">View detail &rarr;</div>
+    </div>
+    <div class="impact-card" onclick="openModal('m3')">
+      <div class="ic-top"><span class="ic-num">03 &mdash; hackajob</span><span class="ic-pill">62&rarr;35 days</span></div>
+      <div class="ic-title">Debtor Days Reduction</div>
+      <div class="ic-desc">Reduced debtors&rsquo; days from 62 to 35 in six months through a combined overhaul of invoicing accuracy and the collections process.</div>
+      <div class="ic-arrow">View detail &rarr;</div>
+    </div>
+    <div class="impact-card" onclick="openModal('m4')">
+      <div class="ic-top"><span class="ic-num">04 &mdash; hackajob</span><span class="ic-pill">3 countries</span></div>
+      <div class="ic-title">Multi-Entity Tool Rollout</div>
+      <div class="ic-desc">Identified a fragmented finance stack that couldn&rsquo;t keep pace with growth, then researched, recommended and led a rollout of four tools across three countries.</div>
+      <div class="ic-arrow">View detail &rarr;</div>
+    </div>
+    <div class="impact-card" onclick="openModal('m5')">
+      <div class="ic-top"><span class="ic-num">05 &mdash; JAAQ</span><span class="ic-pill">Clearer reporting</span></div>
+      <div class="ic-title">Chart of Accounts Redesign</div>
+      <div class="ic-desc">Mapped the existing structure, identified where clarity was breaking down, and rebuilt the chart of accounts so leadership could finally see P&amp;L by department.</div>
+      <div class="ic-arrow">View detail &rarr;</div>
+    </div>
+  </div>
+</section>
+
+<div id="m1" class="modal-overlay" onclick="overlayClose(event,'m1')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m1')">&#x2715;</button>
+    <div class="modal-tag">01 &mdash; JAAQ</div>
+    <div class="modal-pill">&minus;9 days</div>
+    <h3 class="modal-title">Month-End Transformation</h3>
+    <p class="modal-body">When I joined JAAQ, month-end close was taking 14 working days &mdash; nearly three full weeks. The root cause wasn&rsquo;t complexity, it was unclear ownership. Nobody was certain whose job each step was, so tasks fell through the cracks and chasing became the default.</p>
+    <p class="modal-body">I mapped the entire close process end-to-end, assigned clear owners to every task, and replaced manual data pulls with automated feeds. The result was a standardised, documented close that the whole team could follow without relying on any single person&rsquo;s institutional knowledge.</p>
+    <p class="modal-body">Within two months, close was down to 5 working days. More importantly, leadership started receiving management accounts faster &mdash; giving them the information they needed to make decisions at the pace a scale-up actually demands.</p>
+  </div>
+</div>
+<div id="m2" class="modal-overlay" onclick="overlayClose(event,'m2')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m2')">&#x2715;</button>
+    <div class="modal-tag">02 &mdash; hackajob</div>
+    <div class="modal-pill">$25M raised</div>
+    <h3 class="modal-title">Series B Due Diligence</h3>
+    <p class="modal-body">Fundraising puts every corner of a business&rsquo;s finances under a microscope. At hackajob, I was involved throughout the entire Series B process &mdash; not just in a sprint at the end, but from the early preparation stages right through to close.</p>
+    <p class="modal-body">My focus was compliance and audit readiness: ensuring that every figure investors scrutinised was accurate, well-documented and defensible. That meant clean reconciliations, airtight audit trails and making sure nothing came back as a surprise during investor review.</p>
+    <p class="modal-body">The round closed at $25M, followed by a venture debt refinancing. Having a finance function that could hold up under sustained due diligence scrutiny was a meaningful part of getting there.</p>
+  </div>
+</div>
+<div id="m3" class="modal-overlay" onclick="overlayClose(event,'m3')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m3')">&#x2715;</button>
+    <div class="modal-tag">03 &mdash; hackajob</div>
+    <div class="modal-pill">62&rarr;35 days</div>
+    <h3 class="modal-title">Debtor Days Reduction</h3>
+    <p class="modal-body">62 debtors&rsquo; days is a significant drag on working capital &mdash; money owed but sitting uncollected for over two months. At a growth-stage business where cash runway matters, that&rsquo;s not just a metric problem, it&rsquo;s a real constraint.</p>
+    <p class="modal-body">I tackled it from both ends. On the invoicing side, I improved speed and accuracy so customers received correct invoices promptly, removing the most common reasons for delayed payment. On the collections side, I tightened the chasing process with clearer escalation paths and more consistent follow-up.</p>
+    <p class="modal-body">Within six months, debtors&rsquo; days had fallen from 62 to 35 &mdash; a 43% improvement that meaningfully strengthened cash conversion at a critical stage of hackajob&rsquo;s growth.</p>
+  </div>
+</div>
+<div id="m4" class="modal-overlay" onclick="overlayClose(event,'m4')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m4')">&#x2715;</button>
+    <div class="modal-tag">04 &mdash; hackajob</div>
+    <div class="modal-pill">3 countries</div>
+    <h3 class="modal-title">Multi-Entity Tool Rollout</h3>
+    <p class="modal-body">As hackajob scaled across the UK, US and Romania, the finance stack hadn&rsquo;t kept pace. Each entity was operating differently, with limited central visibility &mdash; the kind of setup that works at 20 people but breaks at 100.</p>
+    <p class="modal-body">I identified the gaps, researched the market, and put together a recommendation covering four tools: Payfit for payroll, Payhawk for expense management, Travelperk for travel, and Gusto for the US entity. I presented the business case to leadership and then led the implementation across all three countries.</p>
+    <p class="modal-body">The result was a consistent, scalable finance infrastructure &mdash; with central visibility over payroll, spend and travel that the business simply didn&rsquo;t have before.</p>
+  </div>
+</div>
+<div id="m5" class="modal-overlay" onclick="overlayClose(event,'m5')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('m5')">&#x2715;</button>
+    <div class="modal-tag">05 &mdash; JAAQ</div>
+    <div class="modal-pill">Clearer reporting</div>
+    <h3 class="modal-title">Chart of Accounts Redesign</h3>
+    <p class="modal-body">Leadership at JAAQ were struggling to get clear answers from the management accounts. The existing chart of accounts had become a barrier &mdash; categories were inconsistent, allocations were unclear, and it was hard to see what was actually driving performance.</p>
+    <p class="modal-body">I started by mapping the entire existing structure to understand what was working and what wasn&rsquo;t. From there I rebuilt it from scratch, designing a new chart of accounts that reflected how the business actually operates &mdash; with clean department-level coding so P&amp;L could be viewed by team for the first time.</p>
+    <p class="modal-body">The redesign transformed what management reporting could show. Leadership moved from vague top-line figures to a clear view of where money was being made and spent across every part of the business &mdash; exactly the visibility they needed to make better decisions.</p>
+  </div>
+</div>
+<div class="divider"></div>
+
+<section id="education">
+  <div class="section-tag">Qualifications</div>
+  <h2 class="s-title">Education &amp; <em>Certifications</em></h2>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-icon">&#x1F4CB;</div>
+      <div class="edu-status">In Progress</div>
+      <div class="edu-degree">ACCA &mdash; Part Qualified</div>
+      <div class="edu-inst">Association of Chartered Certified Accountants</div>
+      <div class="edu-desc">11 of 13 exams completed. On track to full qualification, continuing alongside a full-time finance role.</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">&#x1F393;</div>
+      <div class="edu-status">Completed</div>
+      <div class="edu-degree">AAT Levels 2, 3 &amp; 4</div>
+      <div class="edu-inst">North Kent College</div>
+      <div class="edu-desc">Full AAT qualification across all three levels &mdash; the technical foundation for a career in professional accountancy.</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">&#x1F3EB;</div>
+      <div class="edu-status">Secondary</div>
+      <div class="edu-degree">11 GCSEs &mdash; Grades A*&ndash;C</div>
+      <div class="edu-inst">Hurstmere School</div>
+      <div class="edu-desc">Strong academic foundation across core subjects including Maths and English.</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+
+
+<section id="contact">
+  <div class="section-tag">Get in touch</div>
+  <div class="contact-grid reveal">
+    <div class="contact-card">
+      <h2 class="contact-heading">Let&rsquo;s have a <em>proper chat</em></h2>
+      <p class="contact-sub">Whether it&rsquo;s a role, a project, or just comparing notes on scale-up finance &mdash; I&rsquo;m always up for a good conversation.</p>
+      <div class="c-links">
+        <a href="#" onclick="window.open('mailto:joekiteley@outlook.com?subject=Getting%20in%20touch%20via%20your%20CV');return false;" class="c-link">
+          <div class="c-link-icon"><svg width="15" height="15" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg></div>
+          <div><div class="c-link-text">joekiteley@outlook.com</div><div class="c-link-sub">Send an email</div></div>
+        </a>
+        <a href="https://www.linkedin.com/in/joseph-kiteley-24518b237" target="_blank" class="c-link">
+          <div class="c-link-icon"><svg width="15" height="15" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.21 24 24 23.23 24 22.27V1.73C24 .77 23.21 0 22.22 0Z"/></svg></div>
+          <div><div class="c-link-text">LinkedIn</div><div class="c-link-sub">Connect professionally</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="fg"><label>Your Name</label><input type="text" id="fname" placeholder="Jane Smith" autocomplete="off"></div>
+      <div class="fg"><label>Email Address</label><input type="email" id="femail" placeholder="jane@company.com" autocomplete="off"></div>
+      <div class="fg"><label>Message</label><textarea id="fmsg" placeholder="I'd love to discuss..."></textarea></div>
+      <button class="f-submit" type="button" onclick="handleSubmit()">Send message &rarr;</button>
+      <div class="f-success" id="formSuccess">&#x2713; Done! Joe will be in touch.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="#hero" id="backToTop">Back to top &uarr;</a>
+</footer>
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function overlayClose(e, id) {
+    if (e.target === document.getElementById(id)) closeModal(id);
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(function(m) {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+
+  document.getElementById('backToTop').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  var cur = document.getElementById('cursor');
+  document.addEventListener('mousemove', function(e) {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .impact-card, .tag, .edu-card, .ref-card, .skill-card, .exp-card').forEach(function(el) {
+    el.addEventListener('mouseenter', function() { cur.classList.add('grow'); });
+    el.addEventListener('mouseleave', function() { cur.classList.remove('grow'); });
+  });
+
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  var allReveal = document.querySelectorAll('.exp-card, .impact-card, .edu-card, .ref-card, .skill-card, .reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -30px 0px' });
+
+  allReveal.forEach(function(el, i) {
+    el.style.transitionDelay = (i % 4 * 0.07) + 's';
+    observer.observe(el);
+  });
+
+  setTimeout(function() {
+    allReveal.forEach(function(el) { el.classList.add('visible'); });
+  }, 900);
+
+  function handleSubmit() {
+    var n = document.getElementById('fname').value.trim();
+    var e = document.getElementById('femail').value.trim();
+    var m = document.getElementById('fmsg').value.trim();
+    if (!n || !e || !m) { alert('Please fill in all fields.'); return; }
+    var subject = encodeURIComponent('CV Enquiry from ' + n);
+    var body = encodeURIComponent('Name: ' + n + '\nEmail: ' + e + '\n\nMessage:\n' + m);
+    window.open('mailto:joekiteley@outlook.com?subject=' + subject + '&body=' + body);
+    document.getElementById('formSuccess').style.display = 'block';
+    document.querySelector('.f-submit').disabled = true;
+  }
+</script>
+</body>
+</html>
